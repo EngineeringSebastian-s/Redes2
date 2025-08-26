@@ -1,3 +1,4 @@
+
 R2>enable
 R2#erase restart
 R2#erase restart
@@ -1084,4 +1085,388 @@ Type escape sequence to abort.
 Sending 5, 100-byte ICMP Echos to 10.0.0.1, timeout is 2 seconds:
 .....
 Success rate is 0 percent (0/5)
+R1#
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Serial0/0/1
+L        10.0.0.2/32 is directly connected, Serial0/0/1
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+R        30.0.0.0 [120/1] via 20.0.0.2, 00:00:14, Serial0/0/0
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+
+R1#wr
+Building configuration...
+[OK]
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Serial0/0/1
+L        10.0.0.2/32 is directly connected, Serial0/0/1
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+R        30.0.0.0 [120/1] via 20.0.0.2, 00:00:19, Serial0/0/0
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#ping 30.0.0.0
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 30.0.0.0, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
+R1#ping 30.0.0.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 30.0.0.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/4 ms
+R1#ping 30.0.0.2
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 30.0.0.2, timeout is 2 seconds:
+.....
+Success rate is 0 percent (0/5)
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Serial0/0/1
+L        10.0.0.2/32 is directly connected, Serial0/0/1
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+R        30.0.0.0 [120/1] via 20.0.0.2, 00:00:07, Serial0/0/0
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Serial0/0/1
+L        10.0.0.2/32 is directly connected, Serial0/0/1
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+R        30.0.0.0 [120/1] via 20.0.0.2, 00:00:10, Serial0/0/0
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#show run
+Building configuration...
+
+Current configuration : 1442 bytes
+!
+! Last configuration change at 23:56:16 UTC Mon Aug 25 2025 by cisco
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+multilink bundle-name authenticated
+!
+cts logging verbose
+!
+!
+license udi pid CISCO1941/K9 sn FJC2052L0PP
+!
+!
+username cisco privilege 15 password 0 cisco
+!
+redundancy
+!
+!
+!
+!
+!
+!
+interface Embedded-Service-Engine0/0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/0
+ bandwidth 1000
+ ip address 192.168.255.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ bandwidth 64
+ ip address 20.0.0.1 255.255.255.252
+ encapsulation ppp
+ clock rate 2000000
+!
+interface Serial0/0/1
+ bandwidth 64
+ ip address 10.0.0.2 255.255.255.252
+ encapsulation ppp
+ clock rate 2000000
+!
+router rip
+ version 2
+ network 10.0.0.0
+ network 20.0.0.0
+ network 192.168.255.0
+ no auto-summary
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+ login local
+line aux 0
+line 2
+ no activation-character
+ no exec
+ transport preferred none
+ transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
+ stopbits 1
+line vty 0 4
+ login local
+ transport input telnet
+!
+scheduler allocate 20000 1000
+!
+end
+
+R1#interface s0/0/1
+    ^
+% Invalid input detected at '^' marker.
+
+R1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#interface s0/0/1
+R1(config-if)#no shut
+R1(config-if)#encap ppp
+R1(config-if)#ba
+R1(config-if)#band
+R1(config-if)#bandwidth 64
+R1(config-if)#ip add
+R1(config-if)#ip address 10.0.0.1 255.255.255.252
+R1(config-if)#
+R1(config-if)#
+*Aug 26 00:26:37.431: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/0/1, changed state to down
+*Aug 26 00:26:39.447: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/0/1, changed state to up
+R1(config-if)#exit
+R1(config)#ex
+% Ambiguous command:  "ex"
+R1(config)#exit
+R1#wr
+Building configuration...
+
+*Aug 26 00:26:55.419: %SYS-5-CONFIG_I: Configured from console by cisco on console[OK]
+R1#
+R1#show run
+Building configuration...
+
+Current configuration : 1442 bytes
+!
+! Last configuration change at 00:26:55 UTC Tue Aug 26 2025 by cisco
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+multilink bundle-name authenticated
+!
+cts logging verbose
+!
+!
+license udi pid CISCO1941/K9 sn FJC2052L0PP
+!
+!
+username cisco privilege 15 password 0 cisco
+!
+redundancy
+!
+!
+!
+!
+!
+!
+interface Embedded-Service-Engine0/0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/0
+ bandwidth 1000
+ ip address 192.168.255.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ bandwidth 64
+ ip address 20.0.0.1 255.255.255.252
+ encapsulation ppp
+ clock rate 2000000
+!
+interface Serial0/0/1
+ bandwidth 64
+ ip address 10.0.0.1 255.255.255.252
+ encapsulation ppp
+ clock rate 2000000
+!
+router rip
+ version 2
+ network 10.0.0.0
+ network 20.0.0.0
+ network 192.168.255.0
+ no auto-summary
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+ login local
+line aux 0
+line 2
+ no activation-character
+ no exec
+ transport preferred none
+ transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
+ stopbits 1
+line vty 0 4
+ login local
+ transport input telnet
+!
+scheduler allocate 20000 1000
+!
+end
+
+R1#wr
+Building configuration...
+[OK]
 R1#
