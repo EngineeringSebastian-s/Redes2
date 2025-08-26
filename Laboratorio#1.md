@@ -1699,3 +1699,1070 @@ L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
 R1#show ip eigrp neighbors
 EIGRP-IPv4 Neighbors for AS(20)
 R1#
+
+% Type "show ?" for a list of subcommands
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      1.0.0.0/32 is subnetted, 1 subnets
+C        1.1.1.1 is directly connected, Loopback0
+      10.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Serial0/0/1
+L        10.0.0.1/32 is directly connected, Serial0/0/1
+C        10.0.0.2/32 is directly connected, Serial0/0/1
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+O        30.0.0.0 [110/1662] via 20.0.0.2, 00:00:49, Serial0/0/0
+      40.0.0.0/24 is subnetted, 1 subnets
+R        40.0.0.0 [120/1] via 10.0.0.2, 00:00:13, Serial0/0/1
+      50.0.0.0/24 is subnetted, 1 subnets
+R        50.0.0.0 [120/2] via 10.0.0.2, 00:00:13, Serial0/0/1
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#show run
+Building configuration...
+
+Current configuration : 1625 bytes
+!
+! Last configuration change at 00:37:53 UTC Tue Aug 26 2025 by cisco
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+multilink bundle-name authenticated
+!
+cts logging verbose
+!
+!
+license udi pid CISCO1941/K9 sn FJC2052L0PP
+!
+!
+username cisco privilege 15 password 0 cisco
+!
+redundancy
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+!
+interface Embedded-Service-Engine0/0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/0
+ bandwidth 1000
+ ip address 192.168.255.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ bandwidth 64
+ ip address 20.0.0.1 255.255.255.252
+ encapsulation ppp
+ clock rate 2000000
+!
+interface Serial0/0/1
+ bandwidth 64
+ ip address 10.0.0.1 255.255.255.252
+ encapsulation ppp
+ clock rate 2000000
+!
+router ospf 1000
+ network 10.0.0.0 0.0.0.3 area 0
+ network 20.0.0.0 0.0.0.3 area 2
+ network 192.168.255.0 0.0.0.255 area 0
+!
+router rip
+ version 2
+ network 10.0.0.0
+ network 20.0.0.0
+ network 192.168.255.0
+ no auto-summary
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+ login local
+line aux 0
+line 2
+ no activation-character
+ no exec
+ transport preferred none
+ transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
+ stopbits 1
+line vty 0 4
+ login local
+ transport input telnet
+!
+scheduler allocate 20000 1000
+!
+end
+
+R1#show ip osp neigbor
+                   ^
+% Invalid input detected at '^' marker.
+
+R1#show ip osp neighbor
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+2.2.2.2           0   FULL/  -        00:00:38    20.0.0.2        Serial0/0/0
+R1#
+*Aug 26 00:47:52.463: %OSPF-4-DUP_RTRID_NBR: OSPF detected duplicate router-id 1.1.1.1 from 10.0.0.2 on interface Serial0/0/1
+R1#show ip osp neighbor
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+2.2.2.2           0   FULL/  -        00:00:39    20.0.0.2        Serial0/0/0
+R1#
+*Aug 26 00:48:58.055: %OSPF-4-DUP_RTRID_NBR: OSPF detected duplicate router-id 1.1.1.1 from 10.0.0.2 on interface Serial0/0/1
+R1#show ip osp neighbor
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+2.2.2.2           0   FULL/  -        00:00:36    20.0.0.2        Serial0/0/0
+R1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#router eigrp 20
+R1(config-router)#eigrp router-id 2.2.2.2
+R1(config-router)#eigrp router-id 1.1.1.1
+R1(config-router)#network 10.0.0.0 0.0.0.3
+R1(config-router)#network 20.0.0.0 0.0.0.3
+R1(config-router)#network 192.168.255.0 0.0.0.255
+R1(config-router)#exit
+R1(config)#exit
+R1#wr
+*Aug 26 00:52:35.547: %SYS-5-CONFIG_I: Configured from console by cisco on console
+Building configuration...
+[OK]
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      1.0.0.0/32 is subnetted, 1 subnets
+C        1.1.1.1 is directly connected, Loopback0
+      10.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Serial0/0/1
+L        10.0.0.1/32 is directly connected, Serial0/0/1
+C        10.0.0.2/32 is directly connected, Serial0/0/1
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+O        30.0.0.0 [110/1662] via 20.0.0.2, 00:06:21, Serial0/0/0
+      40.0.0.0/24 is subnetted, 1 subnets
+R        40.0.0.0 [120/1] via 10.0.0.2, 00:00:08, Serial0/0/1
+      50.0.0.0/24 is subnetted, 1 subnets
+R        50.0.0.0 [120/2] via 10.0.0.2, 00:00:08, Serial0/0/1
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#show ip eigrp neighbors
+EIGRP-IPv4 Neighbors for AS(20)
+R1#
+R1#
+*Aug 26 00:57:58.123: %OSPF-4-DUP_RTRID_NBR: OSPF detected duplicate router-id 1.1.1.1 from 10.0.0.2 on interface Serial0/0/1
+*Aug 26 00:59:03.879: %OSPF-4-DUP_RTRID_NBR: OSPF detected duplicate router-id 1.1.1.1 from 10.0.0.2 on interface Serial0/0/1
+*Aug 26 01:00:10.823: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/0/1, changed state to down
+*Aug 26 01:00:10.823: %LINK-3-UPDOWN: Interface Serial0/0/1, changed state to down
+R1#show ip eigrp neighbors
+EIGRP-IPv4 Neighbors for AS(20)
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      1.0.0.0/32 is subnetted, 1 subnets
+C        1.1.1.1 is directly connected, Loopback0
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+O        30.0.0.0 [110/1662] via 20.0.0.2, 00:14:04, Serial0/0/0
+      40.0.0.0/24 is subnetted, 1 subnets
+R        40.0.0.0 [120/1] via 10.0.0.2, 00:00:26, Serial0/0/1
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      1.0.0.0/32 is subnetted, 1 subnets
+C        1.1.1.1 is directly connected, Loopback0
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+O        30.0.0.0 [110/1662] via 20.0.0.2, 00:14:53, Serial0/0/0
+      40.0.0.0/24 is subnetted, 1 subnets
+R        40.0.0.0 [120/1] via 10.0.0.2, 00:01:15, Serial0/0/1
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#show run
+Building configuration...
+
+Current configuration : 1745 bytes
+!
+! Last configuration change at 00:52:35 UTC Tue Aug 26 2025 by cisco
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+multilink bundle-name authenticated
+!
+cts logging verbose
+!
+!
+license udi pid CISCO1941/K9 sn FJC2052L0PP
+!
+!
+username cisco privilege 15 password 0 cisco
+!
+redundancy
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+!
+interface Embedded-Service-Engine0/0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/0
+ bandwidth 1000
+ ip address 192.168.255.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ bandwidth 64
+ ip address 20.0.0.1 255.255.255.252
+ encapsulation ppp
+ clock rate 2000000
+!
+interface Serial0/0/1
+ bandwidth 64
+ ip address 10.0.0.1 255.255.255.252
+ encapsulation ppp
+ clock rate 2000000
+!
+!
+router eigrp 20
+ network 10.0.0.0 0.0.0.3
+ network 20.0.0.0 0.0.0.3
+ network 192.168.255.0
+ eigrp router-id 1.1.1.1
+!
+router ospf 1000
+ network 10.0.0.0 0.0.0.3 area 0
+ network 20.0.0.0 0.0.0.3 area 2
+ network 192.168.255.0 0.0.0.255 area 0
+!
+router rip
+ version 2
+ network 10.0.0.0
+ network 20.0.0.0
+ network 192.168.255.0
+ no auto-summary
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+ login local
+line aux 0
+line 2
+ no activation-character
+ no exec
+ transport preferred none
+ transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
+ stopbits 1
+line vty 0 4
+ login local
+ transport input telnet
+!
+scheduler allocate 20000 1000
+!
+end
+
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      1.0.0.0/32 is subnetted, 1 subnets
+C        1.1.1.1 is directly connected, Loopback0
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+O        30.0.0.0 [110/1662] via 20.0.0.2, 00:15:32, Serial0/0/0
+      40.0.0.0/24 is subnetted, 1 subnets
+R        40.0.0.0 [120/1] via 10.0.0.2, 00:01:54, Serial0/0/1
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#
+*Aug 26 01:01:58.379: %DUAL-5-NBRCHANGE: EIGRP-IPv4 20: Neighbor 20.0.0.2 (Serial0/0/0) is up: new adjacency
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+
+*Aug 26 01:02:05.635: %LINK-3-UPDOWN: Interface Serial0/0/1, c       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      1.0.0.0/32 is subnetted, 1 subnets
+C        1.1.1.1 is directly connected, Loopback0
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+O        30.0.0.0 [110/hanged state to up1662] via 20.0.0.2, 00:15:44, Serial0/0/0
+      40.0.0.0/24 is subnetted, 1 subnets
+R        40.0.0.0 [120/1] via 10.0.0.2, 00:02:06, Serial0/0/1
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#
+*Aug 26 01:02:16.311: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/0/1, changed state to up
+*Aug 26 01:02:16.339: %OSPF-5-ADJCHG: Process 1000, Nbr 3.3.3.3 on Serial0/0/1 from LOADING to FULL, Loading Done
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      1.0.0.0/32 is subnetted, 1 subnets
+C        1.1.1.1 is directly connected, Loopback0
+      10.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Serial0/0/1
+L        10.0.0.1/32 is directly connected, Serial0/0/1
+C        10.0.0.2/32 is directly connected, Serial0/0/1
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+O        30.0.0.0 [110/1662] via 20.0.0.2, 00:16:12, Serial0/0/0
+      40.0.0.0/24 is subnetted, 1 subnets
+O IA     40.0.0.0 [110/1662] via 10.0.0.2, 00:00:14, Serial0/0/1
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      1.0.0.0/32 is subnetted, 1 subnets
+C        1.1.1.1 is directly connected, Loopback0
+      10.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Serial0/0/1
+L        10.0.0.1/32 is directly connected, Serial0/0/1
+C        10.0.0.2/32 is directly connected, Serial0/0/1
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+O        30.0.0.0 [110/1662] via 20.0.0.2, 00:16:36, Serial0/0/0
+      40.0.0.0/24 is subnetted, 1 subnets
+O IA     40.0.0.0 [110/1662] via 10.0.0.2, 00:00:38, Serial0/0/1
+      50.0.0.0/24 is subnetted, 1 subnets
+R        50.0.0.0 [120/2] via 10.0.0.2, 00:00:15, Serial0/0/1
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#wr
+Building configuration...
+[OK]
+R1#show ip osp neighbor
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+3.3.3.3           0   FULL/  -        00:00:39    10.0.0.2        Serial0/0/1
+2.2.2.2           0   FULL/  -        00:00:33    20.0.0.2        Serial0/0/0
+R1#tel
+R1#telnet 20.0.0.0
+Trying 20.0.0.0 ...
+% Connection timed out; remote host not responding
+
+R1#
+R1#
+R1#
+R1#
+R1#
+R1#
+R1#telnet 20.0.0.2
+Trying 20.0.0.2 ... Open
+
+
+User Access Verification
+
+Username: cisco
+Password:
+R2#exit
+
+[Connection to 20.0.0.2 closed by foreign host]
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      1.0.0.0/32 is subnetted, 1 subnets
+C        1.1.1.1 is directly connected, Loopback0
+      10.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Serial0/0/1
+L        10.0.0.1/32 is directly connected, Serial0/0/1
+C        10.0.0.2/32 is directly connected, Serial0/0/1
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+O        30.0.0.0 [110/1662] via 20.0.0.2, 00:21:32, Serial0/0/0
+      40.0.0.0/24 is subnetted, 1 subnets
+O IA     40.0.0.0 [110/1662] via 10.0.0.2, 00:05:34, Serial0/0/1
+      50.0.0.0/24 is subnetted, 1 subnets
+O IA     50.0.0.0 [110/1762] via 10.0.0.2, 00:04:52, Serial0/0/1
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      1.0.0.0/32 is subnetted, 1 subnets
+C        1.1.1.1 is directly connected, Loopback0
+      10.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Serial0/0/1
+L        10.0.0.1/32 is directly connected, Serial0/0/1
+C        10.0.0.2/32 is directly connected, Serial0/0/1
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+O        30.0.0.0 [110/1662] via 20.0.0.2, 00:21:38, Serial0/0/0
+      40.0.0.0/24 is subnetted, 1 subnets
+O IA     40.0.0.0 [110/1662] via 10.0.0.2, 00:05:40, Serial0/0/1
+      50.0.0.0/24 is subnetted, 1 subnets
+O IA     50.0.0.0 [110/1762] via 10.0.0.2, 00:04:58, Serial0/0/1
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      1.0.0.0/32 is subnetted, 1 subnets
+C        1.1.1.1 is directly connected, Loopback0
+      10.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Serial0/0/1
+L        10.0.0.1/32 is directly connected, Serial0/0/1
+C        10.0.0.2/32 is directly connected, Serial0/0/1
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+O        30.0.0.0 [110/1662] via 20.0.0.2, 00:21:43, Serial0/0/0
+      40.0.0.0/24 is subnetted, 1 subnets
+O IA     40.0.0.0 [110/1662] via 10.0.0.2, 00:05:45, Serial0/0/1
+      50.0.0.0/24 is subnetted, 1 subnets
+O IA     50.0.0.0 [110/1762] via 10.0.0.2, 00:05:03, Serial0/0/1
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#
+*Aug 26 01:08:11.599: %DUAL-5-NBRCHANGE: EIGRP-IPv4 20: Neighbor 20.0.0.2 (Serial0/0/0) is down: Interface PEER-TERMINATION received
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      1.0.0.0/32 is subnetted, 1 subnets
+C        1.1.1.1 is directly connected, Loopback0
+      10.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Serial0/0/1
+L        10.0.0.1/32 is directly connected, Serial0/0/1
+C        10.0.0.2/32 is directly connected, Serial0/0/1
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+O        30.0.0.0 [110/1662] via 20.0.0.2, 00:22:15, Serial0/0/0
+      40.0.0.0/24 is subnetted, 1 subnets
+O IA     40.0.0.0 [110/1662] via 10.0.0.2, 00:06:17, Serial0/0/1
+      50.0.0.0/24 is subnetted, 1 subnets
+O IA     50.0.0.0 [110/1762] via 10.0.0.2, 00:05:35, Serial0/0/1
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#show ip osp neighbor
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+3.3.3.3           0   FULL/  -        00:00:37    10.0.0.2        Serial0/0/1
+2.2.2.2           0   FULL/  -        00:00:32    20.0.0.2        Serial0/0/0
+R1#
+*Aug 26 01:09:52.543: %DUAL-5-NBRCHANGE: EIGRP-IPv4 20: Neighbor 20.0.0.2 (Serial0/0/0) is up: new adjacency
+R1#telnet 20.0.0.2
+Trying 20.0.0.2 ... Open
+
+User Access Verification
+
+Username: cisco
+Password:
+R2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R2(config)#banner motd #
+Enter TEXT message.  End with the character '#'.
+*** ATENCI
+*Aug 26 01:11:31.431: %DUAL-5-NBRCHANGE: EIGRP-IPv4 20: Neighbor 10.0.0.2 (Serial0/0/1) is up: new
+ON ****
+Este router esta maldito
+Cada comando mal escrito reinicia tu pc
+#
+R2(config)#wr
+% Incomplete command.
+
+R2(config)#exit
+R2#wr
+Building configuration...
+[OK]
+R2#
+R2#exit
+
+[Connection to 20.0.0.2 closed by foreign host]
+R1#telnet 20.0.0.2
+Trying 20.0.0.2 ... Open
+
+
+ON ****
+Este router esta maldito
+Cada comando mal escrito reinicia tu pc
+
+User Access Verification
+
+Username: cisco
+Password:
+R2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R2(config)#banner motd #
+Enter TEXT message.  End with the character '#'.
+*** ATENCION ***
+Este router esta maldito
+Cada comando mal escrito reinicia tu configuracion
+#
+R2(config)#exit
+R2#wr
+Building configuration...
+[OK]
+R2#
+R2#exit
+
+[Connection to 20.0.0.2 closed by foreign host]
+R1#telnet 20.0.0.2
+Trying 20.0.0.2 ... Open
+
+*** ATENCION ***
+Este router esta maldito
+Cada comando mal escrito reinicia tu configuracion
+
+User Access Verification
+
+Username: cisco
+Password:
+R2#exit
+
+[Connection to 20.0.0.2 closed by foreign host]
+R1#banner motd
+    ^
+% Invalid input detected at '^' marker.
+
+R1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#banner motd #
+Enter TEXT message.  End with the character '#'.
+*** ATENCION ***
+La persona que se conecte va a adquirir un virus indetectable
+-- No entrar --
+#
+R1(config)#exit
+R1#wr
+Building configuration...
+
+*Aug 26 01:14:42.523: %SYS-5-CONFIG_I: Configured from console by cisco on console[OK]
+R1#
+R1#telnet 10.0.0.2
+Trying 10.0.0.2 ... Open
+
+
+User Access Verification
+
+Username: cisco
+Password:
+R3#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R3(config)#banner motd #
+Enter TEXT message.  End with the character '#'.
+*** ATENCION ***
+Si te equivocas el profesor te va seguir en tu mente con shorun
+--- No puedes escapar ---
+#
+R3(config)#exit
+R3#wr
+Building configuration...
+[OK]
+R3#exit
+
+[Connection to 10.0.0.2 closed by foreign host]
+R1#telnet 10.0.0.2
+Trying 10.0.0.2 ... Open
+
+*** ATENCION ***
+Si te equivocas el profesor te va seguir en tu mente con shorun
+--- No puedes escapar ---
+
+User Access Verification
+
+Username: cisco
+Password:
+R3#exit
+
+[Connection to 10.0.0.2 closed by foreign host]
+R1#telnet 50.0.0.1
+Trying 50.0.0.1 ... Open
+
+
+User Access Verification
+
+Username: cisco
+Password:
+R4#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R4(config)#banner motd #
+Enter TEXT message.  End with the character '#'.
+*** ATENCION ***
+
+Conjura un demonio ejecutando shopirunrunrunrun
+--- Ni modo, att: johan sebas ---
+#
+R4(config)#exit
+R4#wr
+Building configuration...
+[OK]
+R4#
+R4#exit
+
+[Connection to 50.0.0.1 closed by foreign host]
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      1.0.0.0/32 is subnetted, 1 subnets
+C        1.1.1.1 is directly connected, Loopback0
+      10.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Serial0/0/1
+L        10.0.0.1/32 is directly connected, Serial0/0/1
+C        10.0.0.2/32 is directly connected, Serial0/0/1
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+D        30.0.0.0 [90/40514560] via 20.0.0.2, 00:01:00, Serial0/0/0
+      40.0.0.0/24 is subnetted, 1 subnets
+D        40.0.0.0 [90/40514560] via 10.0.0.2, 00:03:55, Serial0/0/1
+      50.0.0.0/24 is subnetted, 1 subnets
+D        50.0.0.0 [90/40517120] via 10.0.0.2, 00:03:55, Serial0/0/1
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      1.0.0.0/32 is subnetted, 1 subnets
+C        1.1.1.1 is directly connected, Loopback0
+      10.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Serial0/0/1
+L        10.0.0.1/32 is directly connected, Serial0/0/1
+C        10.0.0.2/32 is directly connected, Serial0/0/1
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+D        30.0.0.0 [90/40514560] via 20.0.0.2, 00:01:05, Serial0/0/0
+      40.0.0.0/24 is subnetted, 1 subnets
+D        40.0.0.0 [90/40514560] via 10.0.0.2, 00:04:00, Serial0/0/1
+      50.0.0.0/24 is subnetted, 1 subnets
+D        50.0.0.0 [90/40517120] via 10.0.0.2, 00:04:00, Serial0/0/1
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#show run
+Building configuration...
+
+Current configuration : 1856 bytes
+!
+! Last configuration change at 01:14:42 UTC Tue Aug 26 2025 by cisco
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+multilink bundle-name authenticated
+!
+cts logging verbose
+!
+!
+license udi pid CISCO1941/K9 sn FJC2052L0PP
+!
+!
+username cisco privilege 15 password 0 cisco
+!
+redundancy
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+!
+interface Embedded-Service-Engine0/0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/0
+ bandwidth 1000
+ ip address 192.168.255.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ bandwidth 64
+ ip address 20.0.0.1 255.255.255.252
+ encapsulation ppp
+ clock rate 2000000
+!
+interface Serial0/0/1
+ bandwidth 64
+ ip address 10.0.0.1 255.255.255.252
+ encapsulation ppp
+ clock rate 2000000
+!
+!
+router eigrp 20
+ network 10.0.0.0 0.0.0.3
+ network 20.0.0.0 0.0.0.3
+ network 192.168.255.0
+ eigrp router-id 1.1.1.1
+!
+router ospf 1000
+ network 10.0.0.0 0.0.0.3 area 0
+ network 20.0.0.0 0.0.0.3 area 2
+ network 192.168.255.0 0.0.0.255 area 0
+!
+router rip
+ version 2
+ network 10.0.0.0
+ network 20.0.0.0
+ network 192.168.255.0
+ no auto-summary
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+!
+control-plane
+!
+!
+banner motd ^C
+*** ATENCION ***
+La persona que se conecte va a adquirir un virus indetectable
+-- No entrar --
+^C
+!
+line con 0
+ login local
+line aux 0
+line 2
+ no activation-character
+ no exec
+ transport preferred none
+ transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
+ stopbits 1
+line vty 0 4
+ login local
+ transport input telnet
+!
+scheduler allocate 20000 1000
+!
+end
+
+R1#
+*Aug 26 01:19:30.183: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0, changed state to down
+*Aug 26 01:19:31.183: %LINK-3-UPDOWN: Interface GigabitEthernet0/0, changed state to down
+*Aug 26 01:19:46.183: %LINK-3-UPDOWN: Interface GigabitEthernet0/0, changed state to up
+*Aug 26 01:19:47.183: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0, changed state to up
+R1#
+
