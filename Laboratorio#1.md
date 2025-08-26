@@ -1,4 +1,3 @@
-
 R2>enable
 R2#erase restart
 R2#erase restart
@@ -860,4 +859,229 @@ GigabitEthernet0/0         192.168.255.1   YES NVRAM  up                    up
 GigabitEthernet0/1         unassigned      YES NVRAM  administratively down down
 Serial0/0/0                20.0.0.1        YES manual up                    up
 Serial0/0/1                10.0.0.2        YES manual down                  down
+R1#
+R1#show ip interface brief
+Interface                  IP-Address      OK? Method Status                Protocol
+Embedded-Service-Engine0/0 unassigned      YES NVRAM  administratively down down
+GigabitEthernet0/0         192.168.255.1   YES NVRAM  up                    up
+GigabitEthernet0/1         unassigned      YES NVRAM  administratively down down
+Serial0/0/0                20.0.0.1        YES manual up                    up
+Serial0/0/1                10.0.0.2        YES manual down                  down
+R1#show ip interface brief
+Interface                  IP-Address      OK? Method Status                Protocol
+Embedded-Service-Engine0/0 unassigned      YES NVRAM  administratively down down
+GigabitEthernet0/0         192.168.255.1   YES NVRAM  up                    up
+GigabitEthernet0/1         unassigned      YES NVRAM  administratively down down
+Serial0/0/0                20.0.0.1        YES manual up                    up
+Serial0/0/1                10.0.0.2        YES manual down                  down
+R1#pi
+R1#ping 192.168.255.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.255.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/4 ms
+R1#ping 20.0.0.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 20.0.0.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/2/4 ms
+R1#ping 10.0.0.2
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.0.0.2, timeout is 2 seconds:
+.....
+Success rate is 0 percent (0/5)
+R1#show ip interface brief
+Interface                  IP-Address      OK? Method Status                Protocol
+Embedded-Service-Engine0/0 unassigned      YES NVRAM  administratively down down
+GigabitEthernet0/0         192.168.255.1   YES NVRAM  up                    up
+GigabitEthernet0/1         unassigned      YES NVRAM  administratively down down
+Serial0/0/0                20.0.0.1        YES manual up                    up
+Serial0/0/1                10.0.0.2        YES manual down                  down
+R1#conft t
+       ^
+% Invalid input detected at '^' marker.
+
+R1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#
+R1(config)#router rip
+R1(config-router)#version 2
+R1(config-router)#network 10.0.0.0
+R1(config-router)#network 20.0.0.0
+R1(config-router)#network 192.168.255.0
+R1(config-router)#no au
+R1(config-router)#no auto-summary
+R1(config-router)#^Z
+R1#
+*Aug 25 23:56:16.055: %SYS-5-CONFIG_I: Configured from console by cisco on console
+R1#wr
+Building configuration...
+[OK]
+R1#
+R1#show route
+% Ambiguous command:  "show route"
+R1#show run
+Building configuration...
+
+Current configuration : 1442 bytes
+!
+! Last configuration change at 23:56:16 UTC Mon Aug 25 2025 by cisco
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+multilink bundle-name authenticated
+!
+cts logging verbose
+!
+!
+license udi pid CISCO1941/K9 sn FJC2052L0PP
+!
+!
+username cisco privilege 15 password 0 cisco
+!
+redundancy
+!
+!
+!
+!
+!
+!
+interface Embedded-Service-Engine0/0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/0
+ bandwidth 1000
+ ip address 192.168.255.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ bandwidth 64
+ ip address 20.0.0.1 255.255.255.252
+ encapsulation ppp
+ clock rate 2000000
+!
+interface Serial0/0/1
+ bandwidth 64
+ ip address 10.0.0.2 255.255.255.252
+ encapsulation ppp
+ clock rate 2000000
+!
+router rip
+ version 2
+ network 10.0.0.0
+ network 20.0.0.0
+ network 192.168.255.0
+ no auto-summary
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+ login local
+line aux 0
+line 2
+ no activation-character
+ no exec
+ transport preferred none
+ transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
+ stopbits 1
+line vty 0 4
+ login local
+ transport input telnet
+!
+scheduler allocate 20000 1000
+!
+end
+
+R1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      20.0.0.0/8 is variably subnetted, 3 subnets, 2 masks
+C        20.0.0.0/30 is directly connected, Serial0/0/0
+L        20.0.0.1/32 is directly connected, Serial0/0/0
+C        20.0.0.2/32 is directly connected, Serial0/0/0
+      30.0.0.0/24 is subnetted, 1 subnets
+R        30.0.0.0 [120/1] via 20.0.0.2, 00:00:17, Serial0/0/0
+      192.168.255.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.255.0/24 is directly connected, GigabitEthernet0/0
+L        192.168.255.1/32 is directly connected, GigabitEthernet0/0
+R1#
+R1#ping 20.0.0.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 20.0.0.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/2/4 ms
+R1#ping 10.0.0.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.0.0.1, timeout is 2 seconds:
+.....
+Success rate is 0 percent (0/5)
+R1#
+*Aug 26 00:00:52.499: %LINK-3-UPDOWN: Interface Serial0/0/1, changed state to up
+*Aug 26 00:00:52.535: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/0/1, changed state to up
+R1#ping 10.0.0.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.0.0.1, timeout is 2 seconds:
+.....
+Success rate is 0 percent (0/5)
+R1#ping 10.0.0.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.0.0.1, timeout is 2 seconds:
+.....
+Success rate is 0 percent (0/5)
 R1#
