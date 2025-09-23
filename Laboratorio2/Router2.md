@@ -1,125 +1,3 @@
-
-▒x▒▒x`▒▒~▒▒▒~f~▒▒f▒▒f~x▒x▒x▒▒▒~▒▒xx▒~~fx~▒▒x▒▒
-*** ATENCION ***
-Si te equivocas el profesor te va seguir en tu mente con shorun
---- No puedes escapar ---
-
-R3>
-R3>
-R3>en
-Password:
-Password:
-Password:
-% Bad secrets
-
-R3>en
-Password:
-Password:
-Password:
-% Bad secrets
-
-R3>en
-Password:
-Password:
-R3#erase
-R3#erase
-R3#erase restart
-R3#erase restart+
-R3#erase restart
-*Sep 22 22:54:26.147: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0, changed state to down
-*Sep 22 22:54:27.147: %LINK-3-UPDOWN: Interface GigabitEthernet0/0, changed state to down
-         ^
-% Invalid input detected at '^' marker.
-
-R3#
-R3#R2# erase startup-config
-    ^
-% Invalid input detected at '^' marker.
-
-R3#R2# erase startup-config
-*Sep 22 22:54:47.147: %LINK-3-UPDOWN: Interface GigabitEthernet0/0, changed state to up
-*Sep 22 22:54:48.147: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0, changed state to up
-    ^
-% Invalid input detected at '^' marker.
-
-R3#erase startup-config
-Erasing the nvram filesystem will remove all configuration files! Continue? [confirm]
-[OK]
-Erase of nvram: complete
-R3#
-*Sep 22 22:55:03.899: %SYS-7-NV_BLOCK_INIT: Initialized the geometry of nvram
-R3#erase startup-config
-Erasing the nvram filesystem will remove all configuration files! Continue? [confirm]c
-File system erase is not confirmed or Could not be completed
-R3#erase startup-config
-Erasing the nvram filesystem will remove all configuration files! Continue? [confirm]
-[OK]
-Erase of nvram: complete
-R3#
-*Sep 22 22:55:31.215: %SYS-7-NV_BLOCK_INIT: Initialized the geometry of nvram
-R3#erase startup-config
-Erasing the nvram filesystem will remove all configuration files! Continue? [confirm]y[OK]
-Erase of nvram: complete
-R3#
-*Sep 22 22:56:01.691: %SYS-7-NV_BLOCK_INIT: Initialized the geometry of nvram
-R3#
-R3#
-R3#exit
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-R3 con0 is now available
-
-
-
-
-
-Press RETURN to get started.
-
-
-
-
-
-
-*** ATENCION ***
-Si te equivocas el profesor te va seguir en tu mente con shorun
---- No puedes escapar ---
-
-R3>en
-Password:
-R3#erase
-R3#erase star
-R3#erase startup-config
 R3#erase startup-config
 Erasing the nvram filesystem will remove all configuration files! Continue? [confirm]
 [OK]
@@ -1814,3 +1692,362 @@ R2#wr
 Building configuration...
 [OK]
 R2#
+R2#
+%SYS-5-CONFIG_I: Configured from console by cisco on vty0 (ABCD:1:1:3:C986:21B6:F059:BE61)
+R2#show ipv6 eigrp neighbor
+EIGRP-IPv6 Neighbors for AS(32000)
+H   Address                 Interface              Hold Uptime   SRTT   RTO  Q  Seq
+                                                   (sec)         (ms)       Cnt Num
+0   Link-local address:     Se0/0/0                  13 00:11:01    1  2370  0  3
+    FE80::2A2:EEFF:FE2B:D6C0
+R2#show ipv6 eigrp neighbor
+EIGRP-IPv6 Neighbors for AS(32000)
+H   Address                 Interface              Hold Uptime   SRTT   RTO  Q  Seq
+                                                   (sec)         (ms)       Cnt Num
+0   Link-local address:     Se0/0/0                  13 00:11:10    1  2370  0  3
+    FE80::2A2:EEFF:FE2B:D6C0
+R2#show vlan brief
+% Ambiguous command:  "show vlan brief"
+R2#show ipv6 eigrp neighbor
+EIGRP-IPv6 Neighbors for AS(32000)
+H   Address                 Interface              Hold Uptime   SRTT   RTO  Q  Seq
+                                                   (sec)         (ms)       Cnt Num
+0   Link-local address:     Se0/0/0                  14 00:19:58    1  2370  0  8
+    FE80::2A2:EEFF:FE2B:D6C0
+R2#show ipv6 dhcp pool
+DHCPv6 pool: LAN2
+  Address allocation prefix: ABCD:1:1:3::/64 valid 172800 preferred 86400 (2 in use, 0 conflicts)
+  DNS server: ABCD:3::F0
+  Domain name: redes2.elpoli.edu.co
+  Active clients: 2
+R2#show ip run
+            ^
+% Invalid input detected at '^' marker.
+
+R2#show run
+Building configuration...
+
+Current configuration : 1669 bytes
+!
+! Last configuration change at 00:00:43 UTC Tue Sep 23 2025 by cisco
+!
+version 15.4
+no service timestamps debug uptime
+no service timestamps log uptime
+no service password-encryption
+!
+hostname R2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip host R1 ABCD:1:1:1::1
+ip host R2 ABCD:1:1:3::1
+ip host R3 ABCD:1:1:5::1
+ip host R4 ABCD:1:1:6::1
+ip cef
+ipv6 unicast-routing
+ipv6 dhcp pool LAN2
+ address prefix ABCD:1:1:3::/64
+ dns-server ABCD:3::F0
+ domain-name redes2.elpoli.edu.co
+!
+ipv6 cef
+multilink bundle-name authenticated
+!
+cts logging verbose
+!
+!
+license udi pid CISCO1941/K9 sn FJC2052L0PM
+!
+!
+username cisco privilege 15 password 0 cisco
+!
+redundancy
+!
+!
+!
+!
+!
+!
+interface Embedded-Service-Engine0/0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+ ipv6 address ABCD:1:1:3::1/64
+ ipv6 enable
+ ipv6 nd managed-config-flag
+ ipv6 eigrp 32000
+ ipv6 dhcp server LAN2
+!
+interface GigabitEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ bandwidth 64
+ no ip address
+ encapsulation ppp
+ ipv6 address ABCD:1:1:2::2/64
+ ipv6 enable
+ ipv6 eigrp 32000
+!
+interface Serial0/0/1
+ no ip address
+ shutdown
+ clock rate 2000000
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+ipv6 router eigrp 32000
+ eigrp router-id 2.2.2.2
+!
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+line aux 0
+line 2
+ no activation-character
+ no exec
+ transport preferred none
+ transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
+ stopbits 1
+line vty 0 4
+ login local
+ transport input telnet
+!
+scheduler allocate 20000 1000
+!
+end
+
+R2# show ipv6 route
+IPv6 Routing Table - default - 8 entries
+Codes: C - Connected, L - Local, S - Static, U - Per-user Static route
+       B - BGP, R - RIP, I1 - ISIS L1, I2 - ISIS L2
+       IA - ISIS interarea, IS - ISIS summary, D - EIGRP, EX - EIGRP external
+       ND - ND Default, NDp - ND Prefix, DCE - Destination, NDr - Redirect
+       O - OSPF Intra, OI - OSPF Inter, OE1 - OSPF ext 1, OE2 - OSPF ext 2
+       ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2, a - Application
+D   2001:DB8:13::/64 [90/41026560]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:1::/64 [90/40514560]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+C   ABCD:1:1:2::/64 [0/0]
+     via Serial0/0/0, directly connected
+L   ABCD:1:1:2::2/128 [0/0]
+     via Serial0/0/0, receive
+C   ABCD:1:1:3::/64 [0/0]
+     via GigabitEthernet0/0, directly connected
+L   ABCD:1:1:3::1/128 [0/0]
+     via GigabitEthernet0/0, receive
+D   ABCD:1:1:4::/64 [90/41024000]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+L   FF00::/8 [0/0]
+     via Null0, receive
+R2# show ipv6 route
+IPv6 Routing Table - default - 8 entries
+Codes: C - Connected, L - Local, S - Static, U - Per-user Static route
+       B - BGP, R - RIP, I1 - ISIS L1, I2 - ISIS L2
+       IA - ISIS interarea, IS - ISIS summary, D - EIGRP, EX - EIGRP external
+       ND - ND Default, NDp - ND Prefix, DCE - Destination, NDr - Redirect
+       O - OSPF Intra, OI - OSPF Inter, OE1 - OSPF ext 1, OE2 - OSPF ext 2
+       ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2, a - Application
+D   2001:DB8:13::/64 [90/41026560]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:1::/64 [90/40514560]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+C   ABCD:1:1:2::/64 [0/0]
+     via Serial0/0/0, directly connected
+L   ABCD:1:1:2::2/128 [0/0]
+     via Serial0/0/0, receive
+C   ABCD:1:1:3::/64 [0/0]
+     via GigabitEthernet0/0, directly connected
+L   ABCD:1:1:3::1/128 [0/0]
+     via GigabitEthernet0/0, receive
+D   ABCD:1:1:4::/64 [90/41024000]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+L   FF00::/8 [0/0]
+     via Null0, receive
+R2# show ipv6 route
+IPv6 Routing Table - default - 11 entries
+Codes: C - Connected, L - Local, S - Static, U - Per-user Static route
+       B - BGP, R - RIP, I1 - ISIS L1, I2 - ISIS L2
+       IA - ISIS interarea, IS - ISIS summary, D - EIGRP, EX - EIGRP external
+       ND - ND Default, NDp - ND Prefix, DCE - Destination, NDr - Redirect
+       O - OSPF Intra, OI - OSPF Inter, OE1 - OSPF ext 1, OE2 - OSPF ext 2
+       ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2, a - Application
+D   2001:DB8:13::/64 [90/41026560]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:1::/64 [90/40514560]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+C   ABCD:1:1:2::/64 [0/0]
+     via Serial0/0/0, directly connected
+L   ABCD:1:1:2::2/128 [0/0]
+     via Serial0/0/0, receive
+C   ABCD:1:1:3::/64 [0/0]
+     via GigabitEthernet0/0, directly connected
+L   ABCD:1:1:3::1/128 [0/0]
+     via GigabitEthernet0/0, receive
+D   ABCD:1:1:4::/64 [90/41024000]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:5::/64 [90/41029120]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:6::/64 [90/41029120]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:40::/64 [90/41029120]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+L   FF00::/8 [0/0]
+     via Null0, receive
+R2# show ipv6 route
+IPv6 Routing Table - default - 11 entries
+Codes: C - Connected, L - Local, S - Static, U - Per-user Static route
+       B - BGP, R - RIP, I1 - ISIS L1, I2 - ISIS L2
+       IA - ISIS interarea, IS - ISIS summary, D - EIGRP, EX - EIGRP external
+       ND - ND Default, NDp - ND Prefix, DCE - Destination, NDr - Redirect
+       O - OSPF Intra, OI - OSPF Inter, OE1 - OSPF ext 1, OE2 - OSPF ext 2
+       ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2, a - Application
+D   2001:DB8:13::/64 [90/41026560]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:1::/64 [90/40514560]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+C   ABCD:1:1:2::/64 [0/0]
+     via Serial0/0/0, directly connected
+L   ABCD:1:1:2::2/128 [0/0]
+     via Serial0/0/0, receive
+C   ABCD:1:1:3::/64 [0/0]
+     via GigabitEthernet0/0, directly connected
+L   ABCD:1:1:3::1/128 [0/0]
+     via GigabitEthernet0/0, receive
+D   ABCD:1:1:4::/64 [90/41024000]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:5::/64 [90/41029120]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:6::/64 [90/41029120]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:40::/64 [90/41029120]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+L   FF00::/8 [0/0]
+     via Null0, receive
+R2# show ipv6 route
+IPv6 Routing Table - default - 11 entries
+Codes: C - Connected, L - Local, S - Static, U - Per-user Static route
+       B - BGP, R - RIP, I1 - ISIS L1, I2 - ISIS L2
+       IA - ISIS interarea, IS - ISIS summary, D - EIGRP, EX - EIGRP external
+       ND - ND Default, NDp - ND Prefix, DCE - Destination, NDr - Redirect
+       O - OSPF Intra, OI - OSPF Inter, OE1 - OSPF ext 1, OE2 - OSPF ext 2
+       ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2, a - Application
+D   2001:DB8:13::/64 [90/41026560]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:1::/64 [90/40514560]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+C   ABCD:1:1:2::/64 [0/0]
+     via Serial0/0/0, directly connected
+L   ABCD:1:1:2::2/128 [0/0]
+     via Serial0/0/0, receive
+C   ABCD:1:1:3::/64 [0/0]
+     via GigabitEthernet0/0, directly connected
+L   ABCD:1:1:3::1/128 [0/0]
+     via GigabitEthernet0/0, receive
+D   ABCD:1:1:4::/64 [90/41024000]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:5::/64 [90/41029120]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:6::/64 [90/41029120]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:40::/64 [90/41029120]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+L   FF00::/8 [0/0]
+     via Null0, receive
+R2# show ipv6 route
+IPv6 Routing Table - default - 11 entries
+Codes: C - Connected, L - Local, S - Static, U - Per-user Static route
+       B - BGP, R - RIP, I1 - ISIS L1, I2 - ISIS L2
+       IA - ISIS interarea, IS - ISIS summary, D - EIGRP, EX - EIGRP external
+       ND - ND Default, NDp - ND Prefix, DCE - Destination, NDr - Redirect
+       O - OSPF Intra, OI - OSPF Inter, OE1 - OSPF ext 1, OE2 - OSPF ext 2
+       ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2, a - Application
+D   2001:DB8:13::/64 [90/41026560]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:1::/64 [90/40514560]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+C   ABCD:1:1:2::/64 [0/0]
+     via Serial0/0/0, directly connected
+L   ABCD:1:1:2::2/128 [0/0]
+     via Serial0/0/0, receive
+C   ABCD:1:1:3::/64 [0/0]
+     via GigabitEthernet0/0, directly connected
+L   ABCD:1:1:3::1/128 [0/0]
+     via GigabitEthernet0/0, receive
+D   ABCD:1:1:4::/64 [90/41024000]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:5::/64 [90/41029120]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:6::/64 [90/41029120]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:40::/64 [90/41029120]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+L   FF00::/8 [0/0]
+     via Null0, receive
+R2# show ipv6 route
+IPv6 Routing Table - default - 10 entries
+Codes: C - Connected, L - Local, S - Static, U - Per-user Static route
+       B - BGP, R - RIP, I1 - ISIS L1, I2 - ISIS L2
+       IA - ISIS interarea, IS - ISIS summary, D - EIGRP, EX - EIGRP external
+       ND - ND Default, NDp - ND Prefix, DCE - Destination, NDr - Redirect
+       O - OSPF Intra, OI - OSPF Inter, OE1 - OSPF ext 1, OE2 - OSPF ext 2
+       ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2, a - Application
+D   2001:DB8:13::/64 [90/41026560]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:1::/64 [90/40514560]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+C   ABCD:1:1:2::/64 [0/0]
+     via Serial0/0/0, directly connected
+L   ABCD:1:1:2::2/128 [0/0]
+     via Serial0/0/0, receive
+C   ABCD:1:1:3::/64 [0/0]
+     via GigabitEthernet0/0, directly connected
+L   ABCD:1:1:3::1/128 [0/0]
+     via GigabitEthernet0/0, receive
+D   ABCD:1:1:4::/64 [90/41024000]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:5::/64 [90/41029120]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+D   ABCD:1:1:6::/64 [90/41029120]
+     via FE80::2A2:EEFF:FE2B:D6C0, Serial0/0/0
+L   FF00::/8 [0/0]
+     via Null0, receive
+R2#
+%SYS-5-CONFIG_I: Configured from console by cisco on vty0 (ABCD:1:1:3:1D8D:2E78:9F61:BBAC)
