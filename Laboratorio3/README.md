@@ -888,3 +888,132 @@ Serial0/0/0                10.0.0.2        YES manual up                    up
 Serial0/0/1                unassigned      YES NVRAM  administratively down down
 Loopback0                  3.3.3.3         YES manual up                    up
 R3#config
+
+R3>
+R3>enable
+R3#show ip dhcp pool
+
+Pool LANX :
+ Utilization mark (high/low)    : 100 / 0
+ Subnet size (first/next)       : 0 / 0
+ Total addresses                : 254
+ Leased addresses               : 2
+ Pending event                  : none
+ 1 subnet is currently in the pool :
+ Current index        IP address range                    Leased addresses
+ 40.0.0.7             40.0.0.1         - 40.0.0.254        2
+R3#
+R3#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R3(config)#ip d
+R3(config)#ip dhc
+R3(config)#ip dhcp pool LANX
+R3(dhcp-config)#show run | section dhcp
+                 ^
+% Invalid input detected at '^' marker.
+
+R3(dhcp-config)#no ip dhcp pool LANX
+R3(config)#ip dhcp pool LAN40
+R3(dhcp-config)# network 40.0.0.0 255.255.255.0
+R3(dhcp-config)#default-router 40.0.0.1
+R3(dhcp-config)# domain-name redes2.poli.edu
+R3(dhcp-config)#ip dhcp excluded-address 40.0.0.5
+R3(config)#ip dhcp excluded-address 40.0.0.6
+R3(config)#ip dhcp excluded-address 40.0.0.7
+R3(config)#end
+R3#wr
+Building configuration...
+
+*Nov 11 01:07:03.539: %SYS-5-CONFIG_I: Configured from console by console[OK]
+R3#
+R3#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R3(config)#dhcp pool LAN60
+            ^
+% Invalid input detected at '^' marker.
+
+R3(config)#ip dhcp pool LAN60
+R3(dhcp-config)#network 60.0.0.0 255.255.255.0
+R3(dhcp-config)#defaul
+R3(dhcp-config)#default-router 60.0.0.1
+R3(dhcp-config)#domain-name redes2.poli.edu
+R3(dhcp-config)#ip dhcp exc
+R3(dhcp-config)#ip dhcp exclu
+R3(dhcp-config)#exit
+R3(config)#ip dhcp excluded-address 60.0.0.5
+R3(config)#ip dhcp excluded-address 60.0.0.6
+R3(config)#exit
+R3#wr
+Building configuration...
+
+*Nov 11 01:11:24.519: %SYS-5-CONFIG_I: Configured from console by console[OK]
+R3#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      3.0.0.0/32 is subnetted, 1 subnets
+C        3.3.3.3 is directly connected, Loopback0
+      10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Serial0/0/0
+L        10.0.0.2/32 is directly connected, Serial0/0/0
+      40.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        40.0.0.0/24 is directly connected, GigabitEthernet0/0
+L        40.0.0.1/32 is directly connected, GigabitEthernet0/0
+R3#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R3(config)#interface g0/1
+R3(config-if)#no shut
+R3(config-if)#ban
+R3(config-if)#bandwidth
+*Nov 11 01:13:17.715: %LINK-3-UPDOWN: Interface GigabitEthernet0/1, changed sta
+R3(config-if)#no shut
+*Nov 11 01:13:26.163: %LINK-3-UPDOWN: Interface GigabitEthernet0/1, changed state to up
+*Nov 11 01:13:27.163: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1, changed state to up
+R3(config-if)#bandi
+R3(config-if)#band
+R3(config-if)#bandwidth 1000
+R3(config-if)#ip add
+R3(config-if)#ip address 60.0.0.1 255.255.255.0
+R3(config-if)#exit
+R3(config)#exit
+R3#wr
+Building configuration...
+
+*Nov 11 01:14:30.807: %SYS-5-CONFIG_I: Configured from console by console[OK]
+R3#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      3.0.0.0/32 is subnetted, 1 subnets
+C        3.3.3.3 is directly connected, Loopback0
+      10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Serial0/0/0
+L        10.0.0.2/32 is directly connected, Serial0/0/0
+      40.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        40.0.0.0/24 is directly connected, GigabitEthernet0/0
+L        40.0.0.1/32 is directly connected, GigabitEthernet0/0
+      60.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        60.0.0.0/24 is directly connected, GigabitEthernet0/1
+L        60.0.0.1/32 is directly connected, GigabitEthernet0/1
+R3#
+*Nov 11 01:22:30.607: %LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/0/0, changed state to down
+*Nov 11 01:22:30.607: %LINK-3-UPDOWN: Interface Serial0/0/0, changed state to down
+
